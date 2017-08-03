@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ROSTest</title>
+		<script type="text/javascript" src="mind-framework.js"></script>
+		<script type="text/javascript">
+			mind.init({callback: function(robot){
+				skillID="ROSTest";
+				robot.connectSkill({
+					skillID: skillID
+				});
+			}});
+		</script>
+	</head>
+	<body></body>
+</html>

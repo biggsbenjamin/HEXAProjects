@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MoveLegsSkill</title>
+		<script type="text/javascript" src="mind-framework.js"></script>
+		<script type="text/javascript">
+
+			mind.init({callback: function(robot) {
+				skillID="MoveLegsSkill";
+				robot.connectSkill({
+					skillID: skillID
+				});
+
+				document.getElementById("start").onclick = function() {
+					robot.sendData({
+						skillID: skillID, 
+						data: "start"
+					})
+				}
+
+				document.getElementById("stop").onclick = function() {
+					robot.sendData({
+						skillID: skillID, 
+						data: "stop"
+					})
+				}
+
+				var x = function sendPos() {
+					var j1 = document.getElementById("joint1").value;
+					var j2 = document.getElementById("joint2").value;
+					var j3 = document.getElementById("joint3").value;
+	
+					var jtot = j1 + "," + j2 + "," + j3;
+					robot.sendData({
+						skillID: skillID, 
+						data: jtot
+					})
+					document.getElementById("jointVal1").innerHTML = "Joint1: " + j1;
+					document.getElementById("jointVal2").innerHTML = "Joint2: " + j2;
+					document.getElementById("jointVal3").innerHTML = "Joint3: " + j3;
+				}
+
+
+				document.getElementById("joint1").onmouseup = x;
+				document.getElementById("joint2").onmouseup = x;
+				document.getElementById("joint3").onmouseup = x;
+
+			}});
+			
+		</script>
+	</head>
+	<body>
+		<button id="start">Start</button>
+		<button id="stop">Stop</button>
+
+		<p id="jointVal1">Move Slider</p>
+
+		<input type="range" id="joint1" value="90" min="35" max="145">
+
+		<p id="jointVal2">Move Slider</p>
+
+		<input type="range" id="joint2" value="90" min="10" max="170">
+
+		<p id="jointVal3">Move Slider</p>
+
+		<input type="range" id="joint3" value="45" min="10" max="160">
+
+
+	</body>
+</html>
