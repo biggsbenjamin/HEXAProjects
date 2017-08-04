@@ -6,23 +6,30 @@ import "C"
 import (
 	"mind/core/framework/log"
 	"mind/core/framework/skill"
-	"time"
+	"mind/core/framework/drivers/hexabody"	
+	
 )
+//using export allows the go functions to be used in c++
 
 //export floatFromC
 func floatFromC(val float64, row int, col int) {
 	//hi := C.GoString(C.subArray)
-	poseArr[row][col] = val
-	
+	poseArr[row][col] = val	
 }
 
 //export printPose
 func printPose() {
-	log.Info.Println(poseArr)
+	//log.Info.Println(poseArr)
+	for leg := 0; leg < 6; leg++ {
+		for jnt := 0; jnt < 3; jnt++ {			
+			hexabody.MoveJoint(leg, jnt, poseArr[(leg*3)+jnt][0], 250)
+		}
+	}
+
 }
 
 const (
-	rosMasterIP = "192.168.0.109" // ROS_MASTER_IP need to be modified manually
+	rosMasterIP = "192.168.0.102" // ROS_MASTER_IP need to be modified manually
 	rosSubTopic  = "floater"
 	hello = "HelloWorld"
 )
@@ -53,15 +60,17 @@ func (d *ROSArray) subPubFloats() {
 		C.SubscribeFloat(d.FloatSubscriber)
 
 		//log.Info.Println("spun")
-		time.Sleep(1000 * time.Millisecond)
+		//time.Sleep(500 * time.Millisecond)
 	}
 }
 
 func (d *ROSArray) OnStart() {
+	hexabody.Start()
 	d.subPubFloats()
 }
 
 func (d *ROSArray) OnClose() {
+	hexabody.Close()
 	d.stop <- true
 	C.DeleteFloatSubscriber(d.FloatSubscriber)
 }

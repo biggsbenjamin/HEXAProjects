@@ -31,7 +31,7 @@ class FloatSubscriberWrapper {
             nh.subscribe(sub);
         }
         void subscribeFloat() {
-            nh.spinOnce();
+            ros::spin();
         }
 };
 

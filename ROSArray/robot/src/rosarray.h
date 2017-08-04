@@ -1,3 +1,5 @@
+//sets up the wraper for using the c++ functions in go
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -14,7 +16,7 @@ void DeleteFloatSubscriber(FloatSubscriber* sub);
 }
 #endif
 
-
+//not sure what this bit is but it allows the variable to be manipulated across go and c++
 #ifdef WIN32
 #if defined(EXPORT_DLL)
 #    define VAR __declspec(dllexport)

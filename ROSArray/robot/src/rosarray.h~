@@ -9,7 +9,6 @@ typedef struct {
 FloatSubscriber* NewFloatSubscriber(char *ip, char *topic);
 void SubscribeFloat(FloatSubscriber* sub);
 void DeleteFloatSubscriber(FloatSubscriber* sub);
-void messageCb(const std_msgs::Float64& received_msg)
 
 #ifdef __cplusplus
 }
