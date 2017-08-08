@@ -31,7 +31,6 @@ func printPose() {
 const (
 	rosMasterIP = "192.168.0.102" // ROS_MASTER_IP need to be modified manually
 	rosSubTopic  = "floater"
-	hello = "HelloWorld"
 )
 
 var poseArr [19][2]float64
@@ -39,7 +38,7 @@ var poseArr [19][2]float64
 type ROSArray struct {
 	skill.Base
 	FloatSubscriber *C.FloatSubscriber
-	stop           chan bool
+	stop chan bool
 }
 
 func NewSkill() skill.Interface {
