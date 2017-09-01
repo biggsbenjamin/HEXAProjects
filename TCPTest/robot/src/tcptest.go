@@ -1,3 +1,4 @@
+//testing the tcp capabilities of the hexa in preparation for using rosserial
 package TCPTest
 
 import (
@@ -14,7 +15,7 @@ import (
 type TCPTest struct {
 	skill.Base
 }
-
+//taken from a tcp golang server example
 const (
    	CONN_HOST = "localhost"
    	CONN_PORT = ":3333"
@@ -50,6 +51,7 @@ func (d *TCPTest) OnStart() {
         	// Handle connections in a new goroutine.        	
 		handleRequest(conn)
     	}
+	//debug
 	log.Info.Println("skipped")
 }
 
@@ -75,7 +77,7 @@ func handleRequest(conn net.Conn) {
 		}
 	}	
 }
-
+//legtest function from MoveLegSkill
 func legTest(data string) {
 	
 	pos_slice := strings.Split(data, ":")
@@ -89,6 +91,7 @@ func legTest(data string) {
 	}
 }
 
+//error catching function that checks the ranges of the joint angles to see if they are within the hardware limits, legs can still collide with each other
 func checkJoint(jointNum int, angle float64) bool {
 	good_degree := false
 	if jointNum == 0 {

@@ -13,7 +13,7 @@ int main2() {
 
 	stringFromGo();
 
-	std::string hi2 = "helloworl2";
+	std::string hi2 = "helloworld2";
 	hello = &hi2[0];
 	stringFromGo();
     

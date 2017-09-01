@@ -2,7 +2,7 @@ package cgocTest
 
 // #include "cgoctest.h"
 import "C"
-
+// ^ required to use c++ functions in go
 import (
 	"mind/core/framework/skill"
 	"mind/core/framework/log"
@@ -10,12 +10,14 @@ import (
 
 //export intFromGo
 func intFromGo(hello int) {
+	//int type is easy to convert as it can be directly translated across
 	log.Info.Println(hello)
 }
 
 //export stringFromGo
 func stringFromGo() {
 	hi := C.GoString(C.hello)
+	//see the header file (.h) for explanation
 	log.Info.Println(hi)
 }
 
@@ -32,10 +34,9 @@ func NewSkill() skill.Interface {
 
 func (d *cgocTest) OnStart() {
 	// Use this method to do something when this skill is starting.
+	//running c++ code
 	C.main2()
 }
 
-func (d *cgocTest) OnClose() {
-	// Use this method to do something when this skill is closing.
-}
+
 

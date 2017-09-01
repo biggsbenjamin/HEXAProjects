@@ -2,7 +2,7 @@
 #include <ros.h>
 #include <embedded_linux_hardware.h>
 #include <sensor_msgs/CompressedImage.h>
-
+//example script from hexa devs
 class ImagePublisherWrapper {
     private:
         // Default OUTPUT_SIZE of NodeHandle is too small to send images, we have to create it manually.
@@ -24,7 +24,7 @@ class ImagePublisherWrapper {
 };
 
 /* Wrapper functions */
-
+//creating a class that go can use that contructs a c++ object
 extern "C" ImagePublisher* NewImagePublisher(char *ip, char *topic) {
     ImagePublisher* img_pub = new ImagePublisher();
     img_pub->wrapper = new ImagePublisherWrapper(ip, topic);

@@ -6,7 +6,6 @@ import "C"
 import (
 	"mind/core/framework/skill"
 	"mind/core/framework/log"
-	"bytes"
 )
 
 //export intFromGo

@@ -4,6 +4,8 @@
 * arm up and down and left arm in a circle
  */
 
+//edited version of hexa example skill
+
 package examples
 
 import (
@@ -27,7 +29,7 @@ func NewSkill() skill.Interface {
 		stop: make(chan bool),
 	}
 }
-
+//from example
 func ready() {
 	hexabody.Stand()
 	hexabody.MoveHead(0.0, 1)
@@ -39,6 +41,7 @@ func ready() {
 	hexabody.MoveJoint(1, 2, 45, 1)
 }
 
+//from example
 func moveLegs(v float64) {
 	hexabody.MoveJoint(0, 1, 45*math.Sin(v*math.Pi/180)+70, 1)
 	hexabody.MoveJoint(0, 0, 35*math.Cos(v*math.Pi/180)+60, 1)
@@ -47,16 +50,18 @@ func moveLegs(v float64) {
 }
 
 func legTest(data string) {
-	
+	//splits incoming string info into a slice (which is the equivalent of a c++ vector or python list)
 	pos_slice := strings.Split(data, ",")
-
+	//for loop iterates through each value in slice, "joint" var is the index
 	for joint, angle := range pos_slice {
+		//slice of strings converted to float
 		ang, _ := strconv.ParseFloat(angle, 64)
 		log.Info.Println(joint, ang)
+		//moves individual hexa joint
 		hexabody.MoveJoint(0, joint, ang, 1)
 	}
 }
-
+//from example
 func (d *MoveLegsSkill) play() {
 	ready()
 	v := 0.0
@@ -70,10 +75,12 @@ func (d *MoveLegsSkill) play() {
 		}
 	}
 }
+
+//initialises the hexa motors
 func (d *MoveLegsSkill) OnStart() {
 	hexabody.Start()
 }
-
+//terminates the hexa motors
 func (d *MoveLegsSkill) OnClose() {
 	hexabody.Close()
 }
@@ -81,11 +88,12 @@ func (d *MoveLegsSkill) OnClose() {
 func (d *MoveLegsSkill) OnDisconnect() {
 	os.Exit(0) // Closes the process when remote disconnects
 }
-
+//function runs when strings are sent from a webpage
 func (d *MoveLegsSkill) OnRecvString(data string) {
 	log.Info.Println(data)
 	
 	if data == "start" {
+		//starts thread that runs the play function as part of the d class
 		go d.play()
 	} else if data == "stop" {
 		d.stop <- true
@@ -96,11 +104,4 @@ func (d *MoveLegsSkill) OnRecvString(data string) {
 		log.Info.Println("returned")
 	}
 
-	//switch data {
-	//case "start":
-	//	go d.play()
-	//case "stop":
-	//	d.stop <- true
-	//	hexabody.RelaxLegs()
-	//}
 }

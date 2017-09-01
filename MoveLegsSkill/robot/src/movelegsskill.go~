@@ -4,6 +4,8 @@
 * arm up and down and left arm in a circle
  */
 
+//edited version of hexa example skill
+
 package examples
 
 import (

@@ -44,8 +44,9 @@ class StringPublisherWrapper {
         StringPublisherWrapper(char *ip, char *topic): publisher(topic, &str_msg) {
             nh2.initNode(ip);
             nh2.advertise(publisher);
-        }
+	}
         void publishString(char* data, int len) {
+		stringFromC();
             str_msg.data = (char*)data;
             publisher.publish(&str_msg);
             nh2.spinOnce();

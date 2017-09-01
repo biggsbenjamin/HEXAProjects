@@ -1,4 +1,5 @@
 // ROS Skill implements a skill that shows how to publish Strings to an ROS topic via rosserial.
+//subscriber and publisher don't work at the same time
 package example
 
 // #include "rostest.h"
@@ -17,8 +18,9 @@ func stringFromC() {
 }
 
 const (
-	rosMasterIP = "192.168.0.102" // ROS_MASTER_IP need to be modified manually
-	rosPubTopic  = "chatter1"
+	rosMasterIP = "192.168.0.234" // ROS_MASTER_IP need to be modified manually
+	rosSubTopic  = "subTopic"
+	rosPubTopic  = "pubTopic"
 	hello = "HelloWorld"
 )
 
@@ -26,17 +28,16 @@ const (
 
 type rostest struct {
 	skill.Base
-	//StringPublisher *C.StringPublisher
 	StringSubscriber *C.StringSubscriber
-	stop           chan bool
+	StringPublisher *C.StringPublisher
+	stop chan bool
 }
 
 func NewSkill() skill.Interface {
 	return &rostest{
-		//StringPublisher: C.NewStringPublisher(C.CString(rosMasterIP), C.CString(rosPubTopic)),
-
 		StringSubscriber: C.NewStringSubscriber(C.CString(rosMasterIP), C.CString(rosSubTopic)),
-		stop:           make(chan bool),
+	StringPublisher: C.NewStringPublisher(C.CString(rosMasterIP), C.CString(rosPubTopic)),
+		stop: make(chan bool),
 	}
 }
 
@@ -44,20 +45,28 @@ func NewSkill() skill.Interface {
 
 
 
-func (d *rostest) subPubStrings() {
+func (d *rostest) pubStrings() {
+	go d.subStrings()
+	time.Sleep(20000 * time.Millisecond)
+	d.
 	for {
 		select {
 		case <-d.stop:
 			break
 		default:
 		}
-		/* C.PublishString(
+		C.PublishString(
 			d.StringPublisher,
 			C.CString(hello),
 			C.int(len(hello)),
 		)
 		log.Info.Println("Sent String with length:", len(hello))
-		*/
+		time.Sleep(1000 * time.Millisecond)
+	}
+}
+
+func (d *rostest) subStrings(){
+	for {
 		C.SubscribeString(d.StringSubscriber)
 
 		//log.Info.Println("spun")
@@ -67,12 +76,12 @@ func (d *rostest) subPubStrings() {
 
 
 func (d *rostest) OnStart() {
-	d.subPubStrings()
-	log.Info.Println("starting subscriber")
+	d.pubStrings()
+
 }
 
 func (d *rostest) OnClose() {
 	d.stop <- true
-	//C.DeleteStringPublisher(d.StringPublisher)
+	C.DeleteStringPublisher(d.StringPublisher)
 	C.DeleteStringSubscriber(d.StringSubscriber)
 }
