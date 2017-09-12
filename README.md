@@ -27,3 +27,5 @@ Adapted subscriber to right angles and postions from ros array to motors
 Ran position function in goroutines for simultaneous execution
 
 Wrote a list of poses in csv file and used ros to publish them to robot, walking
+
+ROSNode works as a publisher and a subscriber.
