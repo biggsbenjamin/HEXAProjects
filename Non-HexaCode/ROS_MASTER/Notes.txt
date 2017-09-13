@@ -1,0 +1,13 @@
+angleSubArrayPub.py currently subscribes to the adc_feed from the Rpi to get the angle data.
+
+arrayCSVreader.py reads in the 19x2 position array from the specified CSV file and publishes it to the HEXA ROS node.
+
+arrayTalker was a successful test of the standard ROS message types on the HEXA.
+
+***Depends
+catkin
+rospy
+roscpp
+
+***Requires
+python
